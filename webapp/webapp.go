@@ -132,7 +132,7 @@ func (u *User) Exam() error{
 	rand.Seed(time.Now().Unix())
 	p:=rand.Intn(6)
 	list:=listOK[:(14+p)]
-	list = append(list,listError[11+p:]... )
+	list = append(list,listError[14+p:]... )
 	data:=FormData{List: list,Time: 200+rand.Intn(90),Reqtoken: x[1]}
 	fdata,_:=json.Marshal(&data)
 	ret1,_:=client.Post("https://ah.2-class.com/api/quiz/commit","application/json",strings.NewReader(string(fdata)))
