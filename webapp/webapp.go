@@ -15,6 +15,7 @@ import (
 
 type User struct {
 	UserName string
+	Password string
 	name string
 	school string
 	point int
@@ -105,7 +106,7 @@ func (u *User) Login() error{
 
 	//增加header选项
 	reqest.Header.Add("account", u.UserName)
-	reqest.Header.Add("password", "123456")
+	reqest.Header.Add("password", u.Password)
 
 	res, _ = client.Do(reqest)
 	res1,_:=ioutil.ReadAll(res.Body)

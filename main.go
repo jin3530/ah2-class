@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -34,8 +35,15 @@ func main() {
 			}
 		}
 		{
-      fmt.Print("使用账号 ： "+string(line)+"  结果: ")
-			u := webapp.User{UserName: string(line)}
+			res:=strings.Split(string(line)," ")
+			var pas string
+			if len(res)>1 {
+				pas=res[1]
+			}else {
+				pas="123456"
+			}
+      		fmt.Print("使用账号 ： "+res[0]+"  结果: ")
+			u := webapp.User{UserName: res[0],Password: pas}
 			err1 := u.Login()
 			if err1 != nil {
 				fmt.Println(err1)
