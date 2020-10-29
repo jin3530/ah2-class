@@ -16,15 +16,17 @@ namespace ah_2class
     public partial class FrmMain : Form
     {
         public delegate void RefreshInfo(User user);
+        public delegate void RefreshProess();
+        
         public List<User> Users=new List<User> { };
-        public void RefreshList(User user)
+
+
+        public void RefreshPro()
         {
-            //Console.WriteLine(user.ToString());
             this.Invoke(new Action(() =>
             {
                 pbComplation.PerformStep();
-                txtStatu.Text = user.ToString();
-                if (pbComplation.Value==pbComplation.Maximum)
+                if (pbComplation.Value == pbComplation.Maximum)
                 {
                     btnStart.Enabled = true;
                     btnCleanList.Enabled = true;
@@ -32,6 +34,16 @@ namespace ah_2class
                     btnCleanComplate.Enabled = true;
                     txtStatu.Text = "已完成";
                 }
+            }));
+        }
+
+            public void RefreshList(User user)
+        {
+            //Console.WriteLine(user.ToString());
+            this.Invoke(new Action(() =>
+            {
+                txtStatu.Text = user.ToString();
+                
                 this.Users.Where(r => r.UserName.Equals(user.UserName)).ToList()[0] = user;
                 dgvList.DataSource = null;
                 dgvList.AutoGenerateColumns = false;
@@ -59,6 +71,8 @@ namespace ah_2class
                 btnCleanComplate.Enabled = false;
                 Service service = new Service();
                 service.refresh += new RefreshInfo(RefreshList);
+                service.proess += new RefreshProess(RefreshPro);
+
                 service.Users = this.Users;
                 pbComplation.Maximum = this.Users.Count;
                 Thread thread = new Thread(new ThreadStart(service.Start));//创建线程

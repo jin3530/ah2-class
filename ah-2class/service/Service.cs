@@ -11,6 +11,8 @@ namespace ah_2class
     class Service
     {
         public  event FrmMain.RefreshInfo refresh;
+        public  event FrmMain.RefreshProess proess;
+
         public List<User> Users{ get; set; }
 
 
@@ -18,10 +20,12 @@ namespace ah_2class
         {
             foreach (User user in Users)
             {
+                
                 if (user.Login() && user.Exam())
                 {
                     refresh(user);
                 }
+                proess();
             }
         }
 
